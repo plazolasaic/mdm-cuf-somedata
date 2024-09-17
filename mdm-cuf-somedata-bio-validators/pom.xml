@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>mdm.cuf.somedata</groupId>
+		<artifactId>mdm-cuf-somedata-parentpom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../mdm-cuf-somedata-parentpom</relativePath>
+	</parent>
+	
+	<artifactId>mdm-cuf-somedata-bio-validators</artifactId>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+    <description>mdm-cuf-somedata Bio Validators Jar </description>
+	
+	<dependencies>
+		<!-- these needs to stay to a min, dep on core only cause this jar could go to a Java client -->
+		
+		<!-- mdm-cuf-core dependencies -->
+		<dependency>
+		    <groupId>mdm.cuf.core</groupId>
+		    <artifactId>mdm-cuf-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>mdm.cuf.core</groupId>
+		    <artifactId>mdm-cuf-core</artifactId>
+		    <type>test-jar</type>
+		    <scope>test</scope>
+		</dependency>
+               
+	</dependencies>
+	
+	
+	<build>
+        <plugins>
+            <plugin>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb30-maven-plugin</artifactId>
+				<version>2.1.0</version>
+                <configuration>
+					<bindingDirectory>${project.basedir}/src/main/resources</bindingDirectory>
+					<schemaIncludes>
+                          <schemaInclude>**/*.xsd</schemaInclude>
+                      </schemaIncludes>
+					<bindingDirectory>${project.basedir}/src/main/resources/bio/</bindingDirectory>
+					<bindingIncludes>
+						<include>JAXB-bindings.xjb</include>
+					</bindingIncludes>
+					<strict>false</strict>
+					<extension>true</extension>
+					<args>
+						<arg>-no-header</arg>
+						<arg>-XJsr303Annotations</arg>
+						<arg>-Xinheritance</arg>
+						<arg>-Xannotate</arg>
+					</args>
+					<plugins>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+							<version>2.1.0</version>
+						</plugin>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+							<version>2.1.0</version>
+						</plugin>
+						<plugin>
+							<groupId>com.fillumina</groupId>
+							<artifactId>krasa-jaxb-tools</artifactId>
+							<version>2.2</version>
+						</plugin>
+						<dependency>
+							<groupId>com.github.krasa</groupId>
+							<artifactId>krasa-jaxb-tools</artifactId>
+							<version>1.1</version>
+						</dependency>
+					</plugins>
+				</configuration>
+                <dependencies>
+                <!-- Adding this dependency as Maven could not find the swagger dependencies. -->
+					<dependency>
+						<groupId>io.swagger.core.v3</groupId>
+						<artifactId>swagger-annotations-jakarta</artifactId>
+						<version>${swagger.core.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>jakarta.xml.bind</groupId>
+						<artifactId>jakarta.xml.bind-api</artifactId>
+						<version>4.0.0</version>
+					</dependency>
+                </dependencies>
+                <executions>
+                	<!-- to introduce a new schema/model, copy/paste this entire execution, give it a new id
+                		such as v2, give new package like v2 and new include schema directory such as v2 -->
+                    <execution>
+                    	<id>xjc-v1</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+							<generatePackage>mdm.cuf.somedata.bio</generatePackage>
+							<schemaDirectory>${project.basedir}/src/main/resources/bio/somedata/v1</schemaDirectory>
+						</configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- there is very little code in this special purposejar, so only explicitly include this -->
+					<includes>
+						<include>**/mdm/cuf/somedata/bio/validators/*</include>
+						<include>**/*.xsd</include>
+						<include>**/*.xjb</include>
+					</includes>
+				</configuration>
+			</plugin>
+        </plugins>
+	</build>
+</project>

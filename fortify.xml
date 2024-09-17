@@ -1,0 +1,49 @@
+<!--**************************************************************************************************************
+    USAGE READ ME
+
+    maven-ant-tasks jar (i.e. maven-ant-tasks-2.1.3.jar) must be on the classpath.  
+
+    You can place the JAR in your Ant lib directory, include it in the CLASSPATH environment variable, 
+    or pass it in to Ant using the -lib command line parameter.
+
+    Recommendation is to install it into the Ant lib directory for your Ant installation.
+***************************************************************************************************************-->
+
+<project name="mdm-cuf-core-all-fortify" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <description>
+    	This is the fortify ant script for this project.  
+    	All Ant scripts should be imported from the mdm-cuf-core-build-utils project which is where any
+        approved special-purpose fortify Ant scripts would reside.  Ant is not our primary build technology 
+    	and should only be getting used for rare one-off style unique cases.
+    </description>
+	
+<!--..............................................................................................................
+    IMPORT CORE SCRIPTS                                                                              
+    Import the scripts from the mdm-cuf-core-build-utils artifact                                                                                                                      
+...............................................................................................................-->
+	<property name="dir.scripts" value="target/antscripts" />
+	
+	<!-- get the version of mdm-cuf-core from pom -->
+	<echo message="Getting mdm-cuf-core version from pom." />
+    <artifact:pom id="pomFile" file="./pom.xml" />
+    <property name="mdm-cuf-core.version" value="${pomFile.properties.mdm-cuf-core.version}" />
+	
+	<!-- download the mdm-cuf-core-build-utils artifact -->
+	<echo message="Download the mdm-cuf-core-build-utils which contains all the actual reusable scripts, version: ${mdm-cuf-core.version}!" />
+	<artifact:dependencies filesetId="fileset.mdm-cuf-core-build-utils">
+		<dependency groupId="mdm.cuf.core" artifactId="mdm-cuf-core-build-utils" version="${mdm-cuf-core.version}" />
+    </artifact:dependencies>
+	<copy todir="${dir.scripts}" flatten="true" overwrite="true">
+        <fileset refid="fileset.mdm-cuf-core-build-utils" />
+    </copy>
+    <unzip dest="${dir.scripts}">
+        <fileset dir="${dir.scripts}" includes="**/*mdm-cuf-core-build-utils*.jar" />
+    	<mapper type="flatten"/>
+    	<patternset><include name="**/antscripts/*"/></patternset>
+    </unzip>
+	
+	<!-- import the scripts from mdm-cuf-core-build-utils artifact -->
+    <echo message="Importing mdm-cuf-core-build-utils Fortify scripts, version: ${mdm-cuf-core.version}!" />
+    <import file="${dir.scripts}/mdm-cuf-core-fortify.xml"/>
+
+</project>

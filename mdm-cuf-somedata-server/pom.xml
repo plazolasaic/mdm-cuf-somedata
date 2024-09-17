@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>mdm.cuf.somedata</groupId>
+		<artifactId>mdm-cuf-somedata-parentpom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../mdm-cuf-somedata-parentpom</relativePath>
+	</parent>
+
+	<artifactId>mdm-cuf-somedata-server</artifactId>
+	<packaging>jar</packaging>
+	<name>mdm-cuf-somedata-server</name>
+	<description>mdm-cuf-somedata Server Module</description>
+
+	<dependencies>
+		<!-- mdm-cuf-core dependencies -->
+		<dependency>
+			<groupId>mdm.cuf.core</groupId>
+			<artifactId>mdm-cuf-core</artifactId>
+			<scope>test</scope>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>mdm.cuf.core</groupId>
+			<artifactId>mdm-cuf-core-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mdm.cuf.core</groupId>
+			<artifactId>mdm-cuf-core-server</artifactId>
+			<scope>test</scope>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>mdm.cuf.core</groupId>
+			<artifactId>mdm-cuf-core-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>mdm.cuf.core</groupId>
+			<artifactId>mdm-cuf-core-open-api</artifactId>
+		</dependency>
+		
+		<!-- mdm-cuf-somedata dependencies -->
+		<dependency>
+            <groupId>mdm.cuf.somedata</groupId>
+            <artifactId>mdm-cuf-somedata-db</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>mdm.cuf.somedata</groupId>
+			<artifactId>mdm-cuf-somedata-bio</artifactId>
+		</dependency>
+
+
+		<!-- spring boot dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- spring kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- integration testing dependencies -->
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+            <!-- inclusion triggers spring-boot-maven-plugin repackage to run and create executable artifact -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+		</plugins>
+	</build>
+</project>

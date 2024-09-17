@@ -1,0 +1,130 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <property name="now" value="CURRENT_TIMESTAMP()" dbms="h2"/>
+    <changeSet author="darias"
+		id="0.1-CUF_SOMEDATA">
+		<createSequence cacheSize="20" cycle="false" incrementBy="1" ordered="false" sequenceName="SOMEDATA_S" startValue="1" />
+		<createTable tableName="SOMEDATA">
+			<column name="SOMEDATA_ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="SOMEDATA_PK" />
+			</column>
+            <column name="DEMO_FIELD" type="VARCHAR(255 CHAR)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CREATE_DATE" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_DATE" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORIG_SOURCE_SYSTEM" type="VARCHAR(255 CHAR)" />
+            <column name="SOURCE_DATE" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+            <column name="SOURCE_SYSTEM" type="VARCHAR(255 CHAR)">
+                <constraints nullable="false" />
+            </column>
+            <column name="SOURCE_SYSTEM_USER" type="VARCHAR(255 CHAR)" />
+            <column name="TX_AUDIT_ID" type="VARCHAR(36 CHAR)">
+                <constraints nullable="0" />
+            </column>
+		</createTable>
+		
+		<createTable tableName="SOMEDATA_AUD">
+            <column name="SOMEDATA_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="REV" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="REVTYPE" type="TINYINT" />
+		    <column name="CREATE_DATE" type="DATETIME" />
+            <column name="CREATE_DATE_MOD" type="BOOLEAN" />
+            <column name="UPDATE_DATE" type="DATETIME" />
+            <column name="UPDATE_DATE_MOD" type="BOOLEAN" />
+            <column name="ORIG_SOURCE_SYSTEM" type="VARCHAR(255 CHAR)" />
+            <column name="ORIG_SOURCE_SYSTEM_MOD" type="BOOLEAN" />
+            <column name="SOURCE_DATE" type="DATETIME" />
+            <column name="SOURCE_DATE_MOD" type="BOOLEAN" />
+            <column name="SOURCE_SYSTEM" type="VARCHAR(255 CHAR)" />
+            <column name="SOURCE_SYSTEM_MOD" type="BOOLEAN" />
+            <column name="SOURCE_SYSTEM_USER" type="VARCHAR(255 CHAR)" />
+            <column name="SOURCE_SYSTEM_USER_MOD" type="BOOLEAN" />
+            <column name="TX_AUDIT_ID" type="VARCHAR(36 CHAR)" />
+            <column name="TX_AUDIT_ID_MOD" type="BOOLEAN" />
+            <column name="DEMO_FIELD" type="VARCHAR(255 CHAR)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DEMO_FIELD_MOD" type="BOOLEAN" />
+        </createTable>
+        
+        <createTable tableName="REVINFO">
+            <column name="REV" type="INT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="REVINFO_PK"/>
+            </column>
+            <column name="REVTSTMP" type="BIGINT"/>
+        </createTable>
+        
+	</changeSet>
+
+    <changeSet author="plazolas" id="1.0-SomeData11111">
+        <insert tableName="somedata">
+            <column name="somedata_id" type="LONG" value="11111"/>
+            <column name="demo_field" type="VARCHAR2(255 CHAR)" value="demo11111"/>
+            <column name="create_date" type="DATE" valueComputed="${now}"/>
+            <column name="update_date" type="DATE" valueComputed="${now}"/>
+            <column name="orig_source_system" type="VARCHAR2(255 CHAR)" value="VHAES"/>
+            <column name="source_date" type="DATE" valueComputed="${now}"/>
+            <column name="source_system" type="VARCHAR2(255 CHAR)" value="VADIR"/>
+            <column name="source_system_user" type="VARCHAR2(255 CHAR)" value="SSOAnonymous"/>
+            <column name="tx_audit_id" type="VARCHAR2(255 CHAR)" value="25a2727d-d1e8-4229-a494-bfe459a7b3c7"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="plazolas" id="1.0-SomeDataAud11111">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">select count(*) from somedata where somedata_id = 11111</sqlCheck>
+        </preConditions>
+        <insert tableName="somedata_aud">
+            <column name="somedata_id" type="LONG" value="11111"/>
+            <column name="rev" type="INT" value="1"/>
+            <column name="revtype" type="TINYINT" value="1"/>
+            <column name="create_date" type="DATE" valueComputed="${now}"/>
+            <column name="create_date_mod" type="BOOLEAN" value="0"/>
+            <column name="update_date" type="DATE" valueComputed="${now}"/>
+            <column name="update_date_mod" type="BOOLEAN" value="0"/>
+            <column name="orig_source_system" type="VARCHAR2(255 CHAR)" value="int xml insert"/>
+            <column name="orig_source_system_mod" type="BOOLEAN" value="0"/>
+            <column name="source_date" type="DATE" valueComputed="${now}"/>
+            <column name="source_system" type="VARCHAR2(255 CHAR)" value="VHAES"/>
+            <column name="source_system_mod" type="BOOLEAN" value="0"/>
+            <column name="source_system_user" type="VARCHAR2(255 CHAR)" value="SSOAnonymous"/>
+            <column name="source_system_user_mod" type="BOOLEAN" value="0"/>
+            <column name="tx_audit_id" type="VARCHAR2(255 CHAR)" value="25a2727d-d1e8-4229-a494-bfe459a7b3c7"/>
+            <column name="tx_audit_id_mod" type="BOOLEAN" value="0"/>
+            <column name="demo_field" type="VARCHAR2(255 CHAR)" value="demo11111"/>
+            <column name="demo_field_mod" type="BOOLEAN" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="plazolas" id="1.0-SYSTEM-SEED">
+        <insert tableName="cuf_system">
+            <column name="CUF_SYSTEM_NAME" value="VADIR"/>
+            <column name="CREATE_DATE" valueComputed="${now}"/>
+            <column name="UPDATE_DATE" valueComputed="${now}"/>
+            <column name="CUF_SYSTEM_ADMIN" value="1"/>
+            <column name="CUF_SYSTEM_DESCRIPTION" value="The vadir.gov system."/>
+        </insert>
+        <insert tableName="cuf_system">
+            <column name="CUF_SYSTEM_NAME" value="VHAES"/>
+            <column name="CREATE_DATE" valueComputed="${now}"/>
+            <column name="UPDATE_DATE" valueComputed="${now}"/>
+            <column name="CUF_SYSTEM_ADMIN" value="1"/>
+            <column name="CUF_SYSTEM_DESCRIPTION" value="The vhaes.gov system."/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

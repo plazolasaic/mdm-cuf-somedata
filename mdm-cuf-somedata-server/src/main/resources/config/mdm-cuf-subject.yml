@@ -1,0 +1,81 @@
+
+# SUBJECT APP CONFIG
+# This is the subject application config
+# store config here custom to this app and/or overrides of config in mdm-cuf-core-server.yml
+#-------------------------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------------------------------------------------
+# DEFAULT CONFIG
+# The default config contains global configs that apply under all profiles, unless overridden (which should be rare).
+#----------------------------------------------------------------------------------------------------------------------
+spring: 
+  # by default, if no profile is explicitly activated, we run env env ENV-LOCAL-DEV
+  profiles.active: ENV-LOCAL-DEV
+  # this app should always run in MODE-HUB-ASYNC
+  profiles.include: MODE-HUB-ASYNC
+  # Have the application update the database schema to the current version on startup
+  liquibase:
+    changeLog: classpath:/cuf-somedata-database/mdm.cuf.somedata-master-changelog.xml
+    enabled: true
+ #   archivePurgeDays: 180
+ #   archiveTableOwner: VET360
+  data.redis.ssl.enabled: true
+  foo.bar: true
+# properties rendered in the /info endpoint
+info.mdm-cuf-somedata-server:
+    artifact.version:  "@project.version@"
+    artifact.artifactId: "@project.artifactId@"
+    artifact.name: "@project.name@"
+    artifact.description: "@project.description@"
+    build.branch: "@scmBranch@"
+    build.timestamp: "@timestamp@"
+    build.revision: "@buildNumber@"
+    build.buildServerBuildNumber: "@buildServerBuildNumber@"
+    
+mdm-cuf: 
+  instance-subject-name: SOMEDATA
+  instance-system-name: SOMEDATA-HUB
+  
+# default port if running as a spring-boot app (not a deployed war) and not overriding    
+server.port: 8089
+
+---
+#---------------------------------------------------------------------------------------------------------------------
+# ENV-LOCAL-DEV PROFILE
+# the default profile, uses mocks for various external touch points such as the database, bypasses queue integration
+# standard config likely reusable as-is, thus included in core-server
+#----------------------------------------------------------------------------------------------------------------------
+spring:
+  config:
+    activate:
+      on-profile: ENV-LOCAL-DEV
+  jpa.hibernate.ddl-auto: none
+  datasource.url: jdbc:h2:mem:testdb;Mode=Oracle
+  data.redis.ssl.enabled: false
+
+
+mdm-cuf:
+  hub-config: 
+    skip-changelog-send: false
+  cache.local-dev.embedded-redis: true
+  
+---
+#----------------------------------------------------------------------------------------------------------------------
+# ENV-UNIT-TEST PROFILE
+# Profile used by unit tests which 100% control all of their "integrations" through mocking, simulating, embedding, etc.
+# Nothing here should be integrating with external systems/services that aren't fully controlled by the test execution
+# itself.  
+#----------------------------------------------------------------------------------------------------------------------  
+spring:
+  config:
+    activate:
+      on-profile: ENV-UNIT-TEST
+  data.redis.ssl.enabled: false
+  #unit tests use jpa create-drop vs. liquibase at this time
+  liquibase.enabled: false
+  jpa.hibernate.ddl-auto: create-drop
+
+mdm-cuf:
+  cache.local-dev.embedded-redis: true

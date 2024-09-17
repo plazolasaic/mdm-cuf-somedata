@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="3.0"
+		xmlns:annox="http://jvnet.org/basicjaxb/xjc/annox"
+	xs:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
+
+    <!-- TODO - START FIX THIS DUPLICATION - 
+            This is duplicated into mdm-cuf-core-somedata-bio until we resolve using this internal jaxb
+    -->
+    <jaxb:globalBindings fixedAttributeAsConstantProperty="true" >
+        <xjc:superClass name="mdm.cuf.core.transfer.AbstractTransferObject" /> 
+        <jaxb:javaType name="java.util.Date" xmlType="xs:dateTime"
+              parseMethod="mdm.cuf.core.transfer.jaxb.adapters.DateAdapter.parseDateTime"
+              printMethod="mdm.cuf.core.transfer.jaxb.adapters.DateAdapter.printDateTime" />
+    </jaxb:globalBindings>
+    <!-- TODO - END FIX THIS DUPLICATION -->
+    
+    <!-- somedata types that implement the somedataIdentifiable interface -->
+    <jaxb:bindings schemaLocation="./somedata/v1/bio-somedata.xsd">
+      	<!-- TODO - START FIX THIS DUPLICATION - 
+			This is duplicated into mdm-cuf-core-somedata-bio until we resolve using this internal jaxb
+		-->
+		<!-- top level abstractBio from mdm-cuf-core that we don't want to generate -->
+	      <jaxb:bindings node="//xs:complexType[@name='abstractBio']">
+                        <jaxb:class ref="mdm.cuf.core.bio.AbstractBio"/>
+              </jaxb:bindings>
+	      <!-- TODO - END FIX THIS DUPLICATION -->
+    </jaxb:bindings>
+	
+</jaxb:bindings>

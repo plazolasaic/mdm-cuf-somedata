@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>mdm.cuf.somedata</groupId>
+		<artifactId>mdm-cuf-somedata-parentpom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>./mdm-cuf-somedata-parentpom</relativePath>
+	</parent>
+	
+	<groupId>mdm.cuf.somedata</groupId>
+	<artifactId>mdm-cuf-somedata-all</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>mdm-cuf-somedata Reactor Pom</description>
+	
+	<modules>
+		<module>mdm-cuf-somedata-parentpom</module>
+		<module>mdm-cuf-somedata-bio-validators</module>
+		<module>mdm-cuf-somedata-bio</module>
+		<module>mdm-cuf-somedata-server</module>
+		<module>mdm-cuf-somedata-db</module>
+	</modules>
+	
+	<!-- Creates an assembly of "stuff" for submission -->
+    <build>
+        <plugins>           
+            <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>3.1.0</version>
+              <dependencies>
+                  <dependency>
+                    <groupId>mdm.cuf.core</groupId>
+                    <artifactId>mdm-cuf-core-build-utils</artifactId>
+                    <version>${mdm-cuf-core.version}</version>
+                  </dependency>
+              </dependencies>
+              <executions>
+                  <execution>
+                    <id>dist-assembly</id>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>single</goal>
+                    </goals>
+                    <configuration>
+                      <descriptorRefs>
+                        <descriptorRef>sources-all</descriptorRef>
+                        <descriptorRef>sources-runtime</descriptorRef>
+                        <descriptorRef>dist-assembly</descriptorRef>
+                      </descriptorRefs>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>
+        </plugins>
+   </build>
+	
+</project>

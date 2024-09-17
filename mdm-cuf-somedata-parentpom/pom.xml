@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>mdm.cuf.core</groupId>
+		<artifactId>mdm-cuf-core-parentpom</artifactId>
+		<version>6.3.7</version> 								<!-- READ AND HEED: this should match mdm-cuf-core.version property below. -->
+		<relativePath />
+	</parent>
+
+	<artifactId>mdm-cuf-somedata-parentpom</artifactId>
+	<groupId>mdm.cuf.somedata</groupId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>mdm-cuf-somedata-parentpom</name>
+	<description>Parent POM</description>
+	<properties>
+		<mdm-cuf-core.version>6.3.7</mdm-cuf-core.version> 		<!-- READ AND HEED: this should match the parent pom version above. -->
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- mdm-cuf-somedata dependencies -->
+			<dependency>
+			    <groupId>${project.groupId}</groupId>
+			    <artifactId>mdm-cuf-somedata-bio-validators</artifactId>
+			    <version>${project.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>${project.groupId}</groupId>
+			    <artifactId>mdm-cuf-somedata-bio-validators</artifactId>
+			    <version>${project.version}</version>
+			    <type>test-jar</type>
+			    <scope>test</scope>
+			</dependency>
+			<dependency>
+			    <groupId>${project.groupId}</groupId>
+			    <artifactId>mdm-cuf-somedata-bio</artifactId>
+			    <version>${project.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>${project.groupId}</groupId>
+			    <artifactId>mdm-cuf-somedata-bio</artifactId>
+			    <version>${project.version}</version>
+			    <type>test-jar</type>
+			    <scope>test</scope>
+			</dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mdm-cuf-somedata-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mdm-cuf-somedata-db</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>
