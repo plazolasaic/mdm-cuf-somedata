@@ -14,7 +14,7 @@ spring:
   # by default, if no profile is explicitly activated, we run env env ENV-LOCAL-DEV
   profiles.active: ENV-LOCAL-DEV
   # this app should always run in MODE-HUB-ASYNC
-  profiles.include: MODE-HUB-ASYNC
+  profiles.include: MODE-HUB-ASYNC, MODE-MEMBER
   # Have the application update the database schema to the current version on startup
   liquibase:
     changeLog: classpath:/cuf-somedata-database/mdm.cuf.somedata-master-changelog.xml

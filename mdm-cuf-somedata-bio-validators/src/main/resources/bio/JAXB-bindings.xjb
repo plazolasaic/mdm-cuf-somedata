@@ -21,12 +21,14 @@
     <!-- somedata types that implement the somedataIdentifiable interface -->
     <jaxb:bindings schemaLocation="./somedata/v1/bio-somedata.xsd">
       	<!-- TODO - START FIX THIS DUPLICATION - 
-			This is duplicated into mdm-cuf-core-somedata-bio until we resolve using this internal jaxb
-		-->
+			This is duplicated into mdm-cuf-core-somedata-bio until we resolve using this internal jaxb -->
 		<!-- top level abstractBio from mdm-cuf-core that we don't want to generate -->
 	      <jaxb:bindings node="//xs:complexType[@name='abstractBio']">
                         <jaxb:class ref="mdm.cuf.core.bio.AbstractBio"/>
-              </jaxb:bindings>
+          </jaxb:bindings>
+          <jaxb:bindings node="//xs:complexType[@name='someDataBio']">
+            <jaxb:class ref="mdm.cuf.somedata.validator.SomeDataBio"/>
+          </jaxb:bindings>
 	      <!-- TODO - END FIX THIS DUPLICATION -->
     </jaxb:bindings>
 	
