@@ -1,5 +1,6 @@
 package mdm.cuf.somedata.server;
 
+import mdm.cuf.core.cache.EmbeddedRedisConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import mdm.cuf.somedata.server.rest.provider.SomeDataServerRestProviderConfig;
 
 @Configuration
 @ComponentScan(basePackages = "mdm.cuf.somedata.server", excludeFilters = @Filter(Configuration.class))
-@Import({MdmCufCoreServerConfig.class,SomeDataServerRestProviderConfig.class})
+@Import({MdmCufCoreServerConfig.class,SomeDataServerRestProviderConfig.class, EmbeddedRedisConfig.class})
 public class SomeDataServerConfig {
 
 
